@@ -1,0 +1,18 @@
+[
+    {
+      "id": 1,
+      "name": "Laptop",
+      "trackedSites": [
+        { "site": "Amazon", "price": "2132"},
+        { "site": "eBay", "price": "2222"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Smartphone",
+      "trackedSites": [
+        { "site": "Amazon", "price": "1200"},
+        { "site": "eBay", "price": "420"}
+      ]
+    }
+  ]
