@@ -15,7 +15,7 @@ function Home() {
     if (products.length === 0) {
       const fetchProducts = async () => {
         try {
-          const response = await fetch('/store.json');
+          const response = await fetch(`${process.env.PUBLIC_URL}/store.json`);
           const productsData = await response.json();
           setProducts(productsData);
         } catch (error) {
