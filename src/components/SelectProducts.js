@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SelectProducts.css'; 
-import { useProducts } from '../contexts/ProductsContext';  // Import context
+import './Home.css';
+import { useProducts } from '../contexts/ProductsContext';
 
 function SelectProducts() {
-    const { products, selectedProducts, setSelectedProducts } = useProducts();  // Use context to get selected products
-    const [newlySelected, setNewlySelected] = useState(new Set());  // Track newly selected products
+    const { products, selectedProducts, setSelectedProducts } = useProducts();
+    const [newlySelected, setNewlySelected] = useState(new Set());
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // No need to fetch products here; they should already be fetched in the Home component
-    }, [products]);
 
     const handleCheckboxChange = (productId) => {
         setNewlySelected(prev => {
@@ -25,16 +21,18 @@ function SelectProducts() {
     };
 
     const handleDone = () => {
-        // Add newly selected products to the selectedProducts array, while keeping existing ones
-        setSelectedProducts([...selectedProducts, ...products.filter(p => newlySelected.has(p.id))]);
+        // Add newly selected products to the selectedProducts array
+        const newSelections = products.filter(p => newlySelected.has(p.id));
+        setSelectedProducts([...selectedProducts, ...newSelections]);
         navigate('/');
     };
 
     const renderProducts = () => {
-        // Exclude the first product from the SelectProducts list
-        const unselectedProducts = products.slice(1).filter(product => !selectedProducts.some(p => p.id === product.id));
+        // Filter products that are not currently selected
+        const unselectedProducts = products.filter(product => !selectedProducts.some(p => p.id === product.id));
+
         return unselectedProducts.map(product => (
-            <div key={product.id} className="select-product-item">
+            <div key={product.id} className="item">
                 <input
                     type="checkbox"
                     id={`product-${product.id}`}
@@ -47,10 +45,10 @@ function SelectProducts() {
     };
 
     return (
-        <div className="select-products-container">
-            <h1>Select Products</h1>
+        <div className="container">
+            <h2>Products</h2>
             {renderProducts()}
-            <button className="action-button" onClick={handleDone}>Done</button>
+            <button className="btn" onClick={handleDone}>Done</button>
         </div>
     );
 }

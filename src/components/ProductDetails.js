@@ -1,74 +1,87 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './ProductDetails.css';
+import './Home.css';  // Make sure this is the correct path to your Home.css
 import { useProducts } from '../contexts/ProductsContext';
 
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products } = useProducts();
+  const { products, setProducts } = useProducts();
   const [product, setProduct] = useState(null);
-  const [additionalSites, setAdditionalSites] = useState([]);  // Tracks additional sites added by user
+  const [isRemovalMode, setIsRemovalMode] = useState(false);
+  const [selectedForRemoval, setSelectedForRemoval] = useState(new Set());
 
   useEffect(() => {
-    if (products.length > 0) {
-      const selectedProduct = products.find(p => p.id === parseInt(id));
-      if (selectedProduct) {
-        setProduct(selectedProduct);
-        // Initially, no additional sites are added, so only display the first site
-        setAdditionalSites([]);  // Reset additional sites when the component loads
-
-        // Mark the price update as "seen" in localStorage when viewing the first product
-        if (selectedProduct.id === products[0].id) {
-          localStorage.setItem('priceUpdateSeen', 'true');
-        }
-      } else {
-        console.log("Product not found");
+    const foundProduct = products.find(p => p.id === parseInt(id));
+    if (foundProduct) {
+      if (!foundProduct.selectedSites) {
+        foundProduct.selectedSites = [foundProduct.sites[0]];
+        setProducts(products.map(p => p.id === foundProduct.id ? foundProduct : p));
       }
+      setProduct(foundProduct);
     }
-  }, [products, id]);
+  }, [products, id, setProducts]);
 
-  // Check if there are any new sites to add (i.e., added via SelectSites)
-  useEffect(() => {
-    if (product && product.additionalSites) {
-      setAdditionalSites(product.additionalSites);
-    }
-  }, [product]);
+  const toggleRemovalMode = () => {
+    setIsRemovalMode(prev => !prev);
+    setSelectedForRemoval(new Set()); // Reset selection when toggling the mode
+  };
+
+  const toggleSiteSelection = (site) => {
+    setSelectedForRemoval(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(site)) {
+        newSet.delete(site);
+      } else {
+        newSet.add(site);
+      }
+      return newSet;
+    });
+  };
+
+  const finalizeRemoval = () => {
+    const remainingSites = product.selectedSites.filter(site => !selectedForRemoval.has(site));
+    setProduct({ ...product, selectedSites: remainingSites });
+    setProducts(prev => prev.map(p => p.id === product.id ? { ...p, selectedSites: remainingSites } : p));
+    toggleRemovalMode(); // Exit removal mode
+  };
 
   return (
-    <div className="product-details-container">
-      <h1>Product Details</h1>
+    <div className="container">
+      
       {!product ? (
         <p>Loading or Product not found...</p>
       ) : (
         <>
-          {/* Display the first tracked site */}
-          {product.trackedSites.length > 0 && (
-            <>
-              <h2>{product.name}</h2>
-              <p>{product.trackedSites[0].site}: ${product.trackedSites[0].price}</p>
-            </>
-          )}
-
-          {/* Display additional sites added by the user */}
-          {additionalSites.length > 0 && (
-            <div>
-              <h3>Additional Tracked Sites:</h3>
-              {additionalSites.map((site, index) => (
-                <p key={index}>{site.site}: ${site.price}</p>
-              ))}
+          <h2>{product.name}</h2>
+          {product.selectedSites.map((site, index) => (
+            <div className="item" key={index}>
+              {isRemovalMode ? (
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={selectedForRemoval.has(site)}
+                    onChange={() => toggleSiteSelection(site)}
+                  />
+                  {site.site}: ${site.price}
+                </label>
+              ) : (
+                <label>{site.site}: ${site.price}</label>
+              )}
             </div>
-          )}
+          ))}
         </>
       )}
-
-      <div className="buttons-container">
-        <button className="action-button add-website-button" onClick={() => navigate(`/select-sites/${id}`)}>
-          Add a New Website
-        </button>
-        <button className="action-button view-details-button" onClick={() => navigate('/')}>
-          Back to Home
-        </button>
+      <div >
+        {isRemovalMode ? (
+          <button className="btn" onClick={finalizeRemoval}>Done</button>
+        ) : (
+          <>
+            <button className="btn" onClick={() => navigate(`/select-sites/${id}`)}>Add Website</button>
+            <button className="btn" onClick={toggleRemovalMode}>Remove Website</button>
+            <button className="btn" onClick={() => navigate('/')}>Back to Home</button>
+          </>
+        )}
       </div>
     </div>
   );

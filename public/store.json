@@ -1,18 +1,30 @@
 [
     {
       "id": 1,
-      "name": "Laptop",
-      "trackedSites": [
-        { "site": "Amazon", "price": "2132"},
-        { "site": "eBay", "price": "2222"}
+      "name": "2023 Mcbook Pro",
+      "sites": [
+        { "site": "Amazon", "price": "1300"},
+        { "site": "Best Buy", "price": "1290"},
+        { "site": "Ebay", "price": "1250"}
       ]
     },
     {
       "id": 2,
-      "name": "Smartphone",
-      "trackedSites": [
-        { "site": "Amazon", "price": "1200"},
-        { "site": "eBay", "price": "420"}
+      "name": "iPhone 15 Pro Max",
+      "sites": [
+        { "site": "Amazon", "price": "991"},
+        { "site": "Best Buy", "price": "1149"},
+        { "site": "Ebay", "price": "1000"}
+      ]
+    },
+
+    {
+      "id": 3,
+      "name": "Beats Studio Pro",
+      "sites": [
+        { "site": "Amazon", "price": "250"},
+        { "site": "Best Buy", "price": "249"},
+        { "site": "Ebay", "price": "230"}
       ]
     }
   ]
