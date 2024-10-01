@@ -1,30 +1,35 @@
 [
-    {
-      "id": 1,
-      "name": "2023 Mcbook Pro",
-      "sites": [
-        { "site": "Amazon", "price": "1300"},
-        { "site": "Best Buy", "price": "1290"},
-        { "site": "Ebay", "price": "1250"}
-      ]
-    },
-    {
-      "id": 2,
-      "name": "iPhone 15 Pro Max",
-      "sites": [
-        { "site": "Amazon", "price": "991"},
-        { "site": "Best Buy", "price": "1149"},
-        { "site": "Ebay", "price": "1000"}
-      ]
-    },
-
-    {
-      "id": 3,
-      "name": "Beats Studio Pro",
-      "sites": [
-        { "site": "Amazon", "price": "250"},
-        { "site": "Best Buy", "price": "249"},
-        { "site": "Ebay", "price": "230"}
-      ]
-    }
-  ]
+  {
+    "id": 1,
+    "name": "MacBook Pro 16\" Laptop",
+    "sites": [
+      { "site": "Amazon", "price": "3500"},
+      { "site": "Best Buy", "price": "3520"},
+      { "site": "Ebay", "price": "3490"}
+    ],
+    "information": "M3 Max chip  - 48GB Memory - 40-core GPU - 1TB SSD - Space Black",
+    "image": "/images/macbook-pro.jpg"
+  },
+  {
+    "id": 2,
+    "name": "iPhone 15 Pro Max",
+    "sites": [
+      { "site": "Amazon", "price": "991"},
+      { "site": "Best Buy", "price": "1149"},
+      { "site": "Ebay", "price": "1000"}
+    ],
+    "information": "256GB - Color: Natural Titanium",
+    "image": "/images/iphone-15-pro-max.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Beats Studio Pro",
+    "sites": [
+      { "site": "Amazon", "price": "250"},
+      { "site": "Best Buy", "price": "249"},
+      { "site": "Ebay", "price": "230"}
+    ],
+    "information": "Wireless Noise Cancelling Headphones",
+    "image": "/images/beats-studio-pro.jpg"
+  }
+]

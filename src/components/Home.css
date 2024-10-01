@@ -1,24 +1,28 @@
 body {
-  background-color: black; /* Sets the background color of the entire page to black */
+  background-color: rgb(
+    0,
+    0,
+    0
+  ); /* Sets the background color of the entire page to black */
   color: white; /* Sets the text color to white for better readability on a black background */
 }
 
 h1 {
-   /* Sets the background color of the entire page to black */
-  color: rgb(247, 156, 21); /* Sets the text color to white for better readability on a black background */
+  /* Sets the background color of the entire page to black */
+  color: rgb(
+    247,
+    156,
+    21
+  ); /* Sets the text color to white for better readability on a black background */
 }
 
 h2 {
   /* Sets the background color of the entire page to black */
- color: rgb(247, 156, 21); /* Sets the text color to white for better readability on a black background */
-}
-
-
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-  text-align: center;
+  color: rgb(
+    247,
+    156,
+    21
+  ); /* Sets the text color to white for better readability on a black background */
 }
 
 .item {
@@ -32,40 +36,6 @@ h2 {
   justify-content: center;
   align-items: center;
   max-width: 50%; /* Maximum width set to 50% of the parent container */
-}
-
-
-.product-card {
-  background-color: #dac2b0;
-  position: relative; /* Make the product card a relative container */
-  margin: auto;
-  padding: 10px 10px 20px;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 1); 
-  width: 50%;
-  max-width: 600px;
-}
-
-.product-card h2 {
-  color: #382e2e;
-}
-
-
-.details-link {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #e4932a;
-  color: rgb(255, 255, 255);
-  border-radius: 5px;
-  text-decoration: none;
-  position: relative;
-}
-
-.details-link:hover {
-  background-color: #be7131; /* Darker shade of blue */
-  cursor: pointer; 
 }
 
 .btn {
@@ -83,7 +53,6 @@ h2 {
   opacity: 0.8;
 }
 
-
 /* Price update notification - absolute positioning */
 .price-update-notification {
   position: absolute;
@@ -97,3 +66,450 @@ h2 {
   font-size: 14px;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensures modal appears over all content */
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h4 {
+  color: black;
+}
+
+h5 {
+  color: black;
+}
+
+.crossed-price {
+  position: relative;
+  color: red;
+}
+
+.crossed-price::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom: 2px solid red; /* Adjust line thickness here */
+  transform: rotate(-15deg); /* Diagonal line effect */
+  z-index: 1;
+}
+
+.product-card {
+  background-color: #f3f3f3ea;
+  position: relative;
+  padding: 10px; /* Adjusted padding for a smaller, tighter card */
+  border: 1px solid #000000;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 1);
+  width: 300px; /* Set width to 300px for uniform size */
+  height: 300px; /* Set height to 300px for square shape */
+  text-align: center; /* Center-align text and images inside the card */
+  margin: 0; /* Removed extra margin to avoid excessive spacing */
+}
+
+.image-container {
+  width: 150px; /* Fixed width for the container */
+  height: 150px; /* Fixed height for the container */
+  border: 2px solid white; /* White frame around the image container */
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for visual effect */
+  margin: 10px auto; /* Center the image container horizontally */
+  border-radius: 5px; /* Rounded corners for the container */
+  background-color: #f9f9f9; /* Background color for the frame */
+  display: flex;
+  justify-content: center; /* Center image horizontally */
+  align-items: center; /* Center image vertically */
+}
+
+.product-image {
+  max-width: 100%; /* Limit width to container's width */
+  max-height: 100%; /* Limit height to container's height */
+  object-fit: contain; /* Ensure the image maintains its aspect ratio */
+}
+
+.product-card h2 {
+  font-size: 16px; /* Smaller font size for product title */
+  margin: 5px 0;
+  color: black; /* Smaller margin to save space */
+}
+
+.product-card p {
+  height: 40px; /* Set a maximum height for product information */
+  overflow: hidden; /* Hide any overflow */
+  color: #000000; /* Show ellipsis if text overflows */
+  /* Prevent wrapping */
+}
+
+.details-link {
+  display: inline-block;
+  margin: 0px;
+  padding: 10px 10px;
+  background-color: #e4932a;
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+  text-decoration: none;
+  position: relative;
+}
+
+.details-link:hover {
+  background-color: #be7131; /* Darker shade of blue */
+  cursor: pointer;
+}
+
+h3 {
+  color: black;
+}
+
+.products-grid {
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center the items in the container */
+  align-items: flex-start; /* Align items to the top of the row */
+  gap: 20px; /* Adjust spacing between the cards */
+  flex-wrap: wrap; /* Wrap the items to a new row when needed */
+  padding: 20px 0; /* Add spacing around the grid */
+  max-width: 1200px; /* Restrict the width to avoid excessive space */
+  margin: auto; /* Center the grid container */
+}
+
+/* Container for the button group */
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Spacing between buttons */
+}
+
+/* Tooltip Box Styling */
+.tooltip-box {
+  background-color: #444; /* Dark background */
+  color: #fff; /* White text */
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  top: -100px; /* Position above the icon */
+  right: 0;
+  width: 200px; /* Set a fixed width */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensure it appears above other elements */
+}
+
+/* Style for Help Icon */
+.help-icon-container {
+  position: relative; /* Relative positioning for tooltip */
+  cursor: pointer;
+}
+
+.help-icon {
+  color: #e4932a; /* Custom color for help icon */
+  margin-left: 15px; /* Space between buttons and icon */
+}
+
+.help-icon:hover {
+  color: #fff; /* Change color on hover */
+}
+
+/* Header styling */
+.app-header {
+  background-color: #333; /* Dark background for the header */
+  width: 100%; /* Full-width to span the entire top */
+  text-align: left; /* Align text to the left */
+  position: fixed; /* Fix the header at the top */
+  top: 0; /* Position it at the top */
+  left: 0;
+  z-index: 10; /* Ensure it stays above other elements */
+  padding: 10px 20px; /* Padding for space around the text */
+}
+
+.header-text {
+  color: #ffa600; /* Elegant orange color */
+  margin: 0; /* Remove default margin */
+  font-size: 30px; /* Larger font size for visibility */
+  padding-left: 40px; /* Padding to move the text a bit right */
+  padding-top: 12px;
+  padding-bottom: 8px;
+  font-family: "Great Vibes", cursive; /* Artistic font choice */
+  letter-spacing: 1px; /* Slightly increase spacing for readability */
+  font-weight: 2000; /* Slightly bolder for elegance */
+}
+
+/* Minimalistic and Elegant Search Bar Style */
+.search-container {
+  display: flex;
+  justify-content: center; /* Center the search bar horizontally */
+  margin: 20px 0; /* Space above and below the search bar */
+}
+
+.search-bar {
+  width: 50%; /* Make the search bar occupy 50% of the parent width */
+  padding: 10px; /* Add padding inside the search bar */
+  border: 2px solid #ffa600; /* Set a border with a subtle color */
+  border-radius: 20px; /* Rounded corners for a soft look */
+  outline: none; /* Remove the default outline */
+  font-size: 16px; /* Slightly larger font size for readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for a floating effect */
+  transition: box-shadow 0.3s ease; /* Smooth transition for the hover effect */
+}
+
+/* Hover effect for the search bar */
+.search-bar:hover,
+.search-bar:focus {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Increase shadow depth on hover and focus */
+}
+/* Tooltip box styling */
+.tooltip-box {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  background-color: #444; /* Dark background for the tooltip */
+  color: #fff; /* White text */
+  border-radius: 5px;
+  padding: 10px 10px 10px 10px; /* Padding to create spacing for the close button */
+  width: 230px; /* Narrower width for the tooltip */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensure it appears above other elements */
+  font-size: 16px;
+  line-height: 1.2; /* Adjust line height for better spacing */
+  display: flex;
+  flex-direction: column; /* Align text elements vertically */
+}
+
+/* Tooltip content styling for better alignment */
+.tooltip-content {
+  display: flex;
+  flex-direction: column; /* Align content text in a column */
+  margin-right: 10px; /* Add space to keep text away from the 'x' */
+  text-align: left; /* Align text to the left */
+}
+
+/* Close button inside tooltip */
+.tooltip-close {
+  position: absolute; /* Position it relative to the tooltip box */
+  top: 5px; /* Space from top */
+  right: 8px; /* Space from right */
+  font-size: 14px; /* Adjusted font size for a balanced look */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center the 'x' horizontally */
+  align-items: center; /* Center the 'x' vertically */
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px;
+  color: #fff; /* White 'x' */
+  width: 22px; /* Set equal width */
+  height: 22px; /* Set equal height for a perfect circle */
+  border-radius: 50%; /* Round shape for hover effect */
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover effect for close button */
+.tooltip-close:hover {
+  background-color: #666; /* Gray circle on hover */
+  color: #fff; /* Keep the text white */
+}
+
+/* Info icon styling */
+.info-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%; /* Circle shape */
+  background-color: red; /* Red circle */
+  color: white; /* White 'i' inside the circle */
+  cursor: pointer;
+  font-size: 12px; /* Smaller size for the 'i' */
+  margin-left: 5px; /* Space between icon and text */
+}
+
+/* Container for the tooltip icon */
+.tooltip-container {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px; /* Space between the title and the icon */
+}
+
+/* Read More link styling */
+.read-more-link {
+  color: #ffa600; /* Updated to match a more elegant look */
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.read-more-link:hover {
+  text-decoration: underline;
+}
+
+/* Header container styling */
+.app-header {
+  display: flex;
+  justify-content: space-between; /* Space between Savr title and Help button */
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Keep it on top */
+  width: 100%; /* Ensure header width does not cause overflow */
+  box-sizing: border-box; /* Include padding in the element's total width */
+}
+
+/* Help Button Styling */
+.help-button-container {
+  position: relative; /* Relative to contain the dropdown */
+  margin-right: 20px; /* Space from the right side */
+}
+
+.help-button {
+  background-color: #444; /* Dark button to match header */
+  color: #fff; /* White text */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.help-button:hover {
+  background-color: #555; /* Slightly lighter on hover */
+}
+
+/* Dropdown Menu Styling */
+.help-dropdown {
+  position: absolute;
+  top: 100%; /* Position it below the button */
+  right: 0; /* Align with the button on the right */
+  background-color: #222; /* Dark dropdown */
+  color: #fff; /* White text */
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  padding: 10px 0; /* Space around the dropdown items */
+  z-index: 1000; /* Ensure it appears above other elements */
+  max-width: 200px; /* Constrain dropdown width */
+  overflow: hidden; /* Prevent overflow issues */
+}
+
+/* Dropdown Item Styling */
+.dropdown-item {
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  border-bottom: 1px solid #444; /* Divider */
+  color: #ffa600; /* Elegant orange color */
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #555; /* Change background on hover */
+  color: #fff; /* Make text white on hover */
+}
+
+.dropdown-item:last-child {
+  border-bottom: none; /* Remove border for last item */
+}
+
+/* Updated container styling */
+.container {
+  max-width: 900px; /* Limit the width to 1200px to prevent overflow */
+  width: 100%; /* Ensure it scales on smaller screens */
+  margin: 0 auto; /* Center the content */
+  padding: 20px; /* Keep the padding uniform */
+  text-align: center; /* Center-align text */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+/* Container styling for Contact Us page */
+.contact-container {
+  max-width: 600px;
+  margin: 50px auto; /* Center the form */
+  padding: 20px;
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Contact Form Title Styling */
+.contact-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffa600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Styling for form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the form elements */
+}
+
+/* Styling for each form group */
+.form-group {
+  width: 100%; /* Make each group take full width */
+  display: flex;
+  flex-direction: column; /* Stack the label and input vertically */
+  align-items: flex-start; /* Align label and inputs to the left */
+  margin-bottom: 15px;
+}
+
+/* Labels */
+.form-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333; /* Dark label color */
+}
+
+/* Inputs and Textarea */
+.form-input {
+  width: 100%; /* Full width of container */
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box; /* Include padding in the total width */
+}
+
+/* Button Styling */
+.contact-button {
+  width: 100%; /* Full width for the button */
+  padding: 15px; /* Increased padding for better aesthetics */
+  background-color: #c04b37; /* Update to match your button color */
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #a43f2f; /* Darken the button on hover */
+}
+
+/* Status Message */
+.status-message {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: green;
+}
