@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "./Layout"; // Import the Layout component
-import "./Home.css";
+import "./Home.css"; // Ensure consistent styling with Home component
 import { useProducts } from "../contexts/ProductsContext";
+import CollectionModal from "./CollectionModal"; // Assuming you have created this component for modal handling
 
 function Home() {
-  const { products, setProducts, selectedProducts, setSelectedProducts } =
-    useProducts();
+  const {
+    products,
+    setProducts,
+    favorites,
+    setFavorites,
+    addToCollection,
+    setCollections,
+    selectedCollections,
+    collections,
+    createCollection, 
+  } = useProducts();
   const navigate = useNavigate();
-  const [showPriceUpdate, setShowPriceUpdate] = useState(() => {
-    const seen = localStorage.getItem("priceUpdateSeen");
-    if (seen === null) {
-      localStorage.setItem("priceUpdateSeen", "false");
-      return true;
-    }
-    return seen !== "true";
-  });
 
-  const [isRemovalMode, setIsRemovalMode] = useState(false);
-  const [selectedForRemoval, setSelectedForRemoval] = useState(new Set());
-  const [showNoSelectionModal, setShowNoSelectionModal] = useState(false);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [showTooltip, setShowTooltip] = useState(false); // Tooltip state for visibility
+  const [showCollectionModal, setShowCollectionModal] = useState(false); // State for modal visibility
+  const [selectedProduct, setSelectedProduct] = useState(null); // State to keep track of the selected product
 
   useEffect(() => {
     if (products.length === 0) {
@@ -31,82 +31,75 @@ function Home() {
           const response = await fetch(`${process.env.PUBLIC_URL}/store.json`);
           const productsData = await response.json();
           setProducts(productsData);
-          setSelectedProducts(productsData.slice(0, 1)); // Initially select the first product
         } catch (error) {
           console.error("Failed to fetch products:", error);
         }
       };
       fetchProducts();
     }
-  }, [products.length, setProducts, setSelectedProducts]);
+  }, [products.length, setProducts]);
 
-  useEffect(() => {
-    const handleUnload = () => {
-      localStorage.removeItem("priceUpdateSeen");
-      localStorage.removeItem("firstProductVisited"); // Reset the `firstProductVisited` flag on page unload
-    };
-    window.addEventListener("beforeunload", handleUnload);
+  const handleCreateCollection = (newCollectionName) => {
+    createCollection(newCollectionName); // Create an empty collection
+};
 
-    return () => {
-      window.removeEventListener("beforeunload", handleUnload);
-    };
-  }, []);
+  const handleFavoriteToggle = (product) => {
+    if (favorites.has(product.id)) {
+      // Unfavorite: Remove from favorites and all collections
+      setFavorites((prev) => {
+        const newFavorites = new Set(prev);
+        newFavorites.delete(product.id);
+        sessionStorage.setItem("favorites", JSON.stringify([...newFavorites]));
+        return newFavorites;
+      });
+  
+      // Remove the product from all collections
+      setCollections((prevCollections) =>
+        prevCollections.map((collection) => ({
+          ...collection,
+          items: collection.items.filter((item) => item.id !== product.id),
+        }))
+      );
+    } else {
+      // Favorite: Show modal to add to collections
+      setSelectedProduct(product);
+      setShowCollectionModal(true);
+    }
+  };
+
+  const handleAddToCollection = (selectedCollections) => {
+    selectedCollections.forEach((collectionName) => {
+      addToCollection(collectionName, selectedProduct);
+    });
+  
+    // Update favorites after confirming addition
+    setFavorites((prev) => new Set(prev.add(selectedProduct.id)));
+    sessionStorage.setItem(
+      "favorites",
+      JSON.stringify([...favorites, selectedProduct.id])
+    );
+    setShowCollectionModal(false);
+  };
+  
 
   const handleViewDetails = (id) => {
-    if (id === products[0].id) {
-      setShowPriceUpdate(false);
-      localStorage.setItem("priceUpdateSeen", "true");
-    }
-    navigate(`/product/${id}`);
+    navigate(`/product/${id}`); // Navigate to the product details page
   };
 
-  const toggleSelection = (id) => {
-    setSelectedForRemoval((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
-      return newSet;
-    });
-  };
-
-  const handleRemoveClick = () => {
-    if (selectedForRemoval.size === 0) {
-      setShowNoSelectionModal(true); // Show modal if no products are selected
-    } else {
-      setShowConfirmationModal(true); // Show confirmation modal
-    }
-  };
-
-  const confirmRemoveProducts = () => {
-    const newSelectedProducts = selectedProducts.filter(
-      (p) => !selectedForRemoval.has(p.id)
-    );
-    setSelectedProducts(newSelectedProducts);
-    setSelectedForRemoval(new Set()); // Clear the selection
-    setIsRemovalMode(false); // Exit removal mode
-    setShowConfirmationModal(false); // Close the confirmation modal
-  };
-
-  const handleToggleRemovalMode = () => {
-    if (isRemovalMode) {
-      // When exiting the removal mode, reset the selected products for removal
-      setSelectedForRemoval(new Set());
-    }
-    setIsRemovalMode((prev) => !prev); // Toggle removal mode
-  };
-
-  const renderTrackedProducts = () => {
+  const renderProducts = () => {
     return (
       <div className="products-grid">
-        {selectedProducts
+        {products
           .filter((product) =>
             product.name.toLowerCase().includes(searchQuery.toLowerCase())
           )
           .map((product) => (
-            <div key={product.id} className="product-card">
+            <div
+              key={product.id}
+              className="product-card"
+              onClick={() => handleViewDetails(product.id)} // Make the card clickable
+              style={{ cursor: "pointer" }} // Change cursor to indicate clickable
+            >
               <h2>{product.name}</h2>
               <div className="image-container">
                 <img
@@ -114,25 +107,34 @@ function Home() {
                   alt={product.name}
                   className="product-image"
                 />
+                <button
+                  className="favorite-button"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent click event from bubbling to the card
+                    handleFavoriteToggle(product);
+                  }}
+                  aria-label="Toggle favorite"
+                  style={{
+                    position: "absolute", // Position the button absolutely
+                    top: "10px", // Distance from the top of the card
+                    right: "10px", // Distance from the right of the card
+                    background: "none", // Remove background
+                    border: "none", // Remove border
+                    fontSize: "32px", // Adjust size to make it bigger
+                    cursor: "pointer", // Change cursor on hover
+                    color: favorites.has(product.id) ? "red" : "gray", // Change color based on favorite status
+                    lineHeight: "1.1", // Align icons vertically
+                    transition: "color 0.3s", // Smooth transition for color change
+                  }}
+                >
+                  {favorites.has(product.id) ? "♥" : "♡"}{" "}
+                  {/* Heart symbols for favorite */}
+                </button>
               </div>
               <p>{product.information}</p>
-              {isRemovalMode && (
-                <input
-                  type="checkbox"
-                  checked={selectedForRemoval.has(product.id)}
-                  onChange={() => toggleSelection(product.id)}
-                />
-              )}
-              {!isRemovalMode && (
-                <button
-                  className="details-link"
-                  onClick={() => handleViewDetails(product.id)}
-                >
-                  View Details
-                </button>
-              )}
-              {product.id === products[0].id && showPriceUpdate && (
-                <div className="price-update-notification">1 price update</div>
+              {/* Display Amazon's price */}
+              {product.sites && product.sites.length > 0 && (
+                <p style={{ fontWeight: "bold" }}>${product.sites[0].price}</p>
               )}
             </div>
           ))}
@@ -141,96 +143,60 @@ function Home() {
   };
 
   return (
-    <Layout>
+    <Layout
+      showSearch={true}
+      searchPlaceholder="Search for products..."
+      onSearchChange={setSearchQuery}
+    >
       <div className="container">
-        {/* Modal for No Product Selected */}
-        {showNoSelectionModal && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h4>No product selected for removal.</h4>
-              <button className="btn" onClick={() => setShowNoSelectionModal(false)}>Okay</button>
-            </div>
-          </div>
-        )}
-
-        {/* Modal for Confirmation */}
-        {showConfirmationModal && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h4>Are you sure you want to remove the selected products?</h4>
-              <button className="btn" onClick={confirmRemoveProducts}>Yes</button>
-              <button className="btn" onClick={() => setShowConfirmationModal(false)}>No</button>
-            </div>
-          </div>
-        )}
-
-<h2>
-  {isRemovalMode
-    ? "Select products to remove from tracking"
-    : selectedProducts.length > 0 ? (
-      <>
-        Tracked Products
-        {/* Tooltip Info Icon */}
-        <span className="tooltip-container">
-          <span className="info-icon" onClick={() => setShowTooltip((prev) => !prev)}>i</span>
-          {showTooltip && (
-            <div className="tooltip-box">
-              <span className="tooltip-content">
-                Explore how Savr works:
-                <span
-                  className="read-more-link"
-                  onClick={() => {
-                    setShowTooltip(false); // Hide the tooltip when navigating
-                    navigate("/learn-more"); // Navigate to LearnMore component
-                  }}
-                >
-                  {"  "}Read more
-                </span>
+        <div className="home-page-second-header">
+          <h2>
+            Available Products
+            <span className="tooltip-container">
+              <span
+                className="info-icon"
+                onClick={() => setShowTooltip((prev) => !prev)}
+              >
+                i
               </span>
-              <span className="tooltip-close" onClick={() => setShowTooltip(false)}>✖</span>
-            </div>
-          )}
-        </span>
-      </>
-    ) : "No products currently tracked"}
-</h2>
-
-
-
-        {/* Search bar for filtering products */}
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search tracked products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-bar"
-          />
+              {showTooltip && (
+                <div className="tooltip-box">
+                  <span className="tooltip-content">
+                    Explore how Savr works:
+                    <span
+                      className="read-more-link"
+                      onClick={() => {
+                        setShowTooltip(false);
+                        navigate("/learn-more");
+                      }}
+                    >
+                      {"  "}Read more
+                    </span>
+                  </span>
+                  <span
+                    className="tooltip-close"
+                    onClick={() => setShowTooltip(false)}
+                  >
+                    ✖
+                  </span>
+                </div>
+              )}
+            </span>
+          </h2>
         </div>
-
-        {/* Add a flex container for the product cards */}
-        <div className="products-grid">
-          {products.length > 0 ? (
-            renderTrackedProducts()
-          ) : (
-            <p>Loading or no products available.</p>
-          )}
+        <div className="products-list">
+          {renderProducts()}
         </div>
-
-        {/* Buttons for Add/Remove Product */}
-        {isRemovalMode ? (
-          <>
-            <button className="btn" onClick={handleRemoveClick}>Remove</button>
-            <button className="btn" onClick={handleToggleRemovalMode}>Cancel</button>
-          </>
-        ) : (
-          <>
-            <button className="btn" onClick={() => navigate("/select-products")}>Add Product</button>
-            {selectedProducts.length > 0 && (
-              <button className="btn" onClick={handleToggleRemovalMode}>Remove Product</button>
-            )}
-          </>
-        )}
+        {showCollectionModal && (
+  <CollectionModal
+    show={showCollectionModal}
+    collections={collections}
+    onSelect={handleAddToCollection}
+    onClose={() => setShowCollectionModal(false)}
+    onCreateCollection={handleCreateCollection}
+    selectedCollections={selectedCollections} // Pass selected collections
+  />
+)}
       </div>
     </Layout>
   );

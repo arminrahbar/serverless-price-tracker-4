@@ -3,9 +3,13 @@
     "id": 1,
     "name": "MacBook Pro 16\" Laptop",
     "sites": [
-      { "site": "Amazon", "price": "3500"},
-      { "site": "Best Buy", "price": "3520"},
-      { "site": "Ebay", "price": "3490"}
+      { "site": "Amazon", "price": "3300" },
+      { "site": "Newegg", "price": "3500" },
+      { "site": "Target", "price": "3550" },
+      { "site": "Walmart", "price": "3530" },
+      { "site": "Fry's Electronics", "price": "3400" },
+      { "site": "Micro Center", "price": "3450" },
+      { "site": "Costco", "price": "3420" }
     ],
     "information": "M3 Max chip  - 48GB Memory - 40-core GPU - 1TB SSD - Space Black",
     "image": "/images/macbook-pro.jpg"
@@ -14,9 +18,13 @@
     "id": 2,
     "name": "iPhone 15 Pro Max",
     "sites": [
-      { "site": "Amazon", "price": "991"},
-      { "site": "Best Buy", "price": "1149"},
-      { "site": "Ebay", "price": "1000"}
+      { "site": "Amazon", "price": "950" },
+      { "site": "Walmart", "price": "1099" },
+      { "site": "Target", "price": "1025" },
+      { "site": "Newegg", "price": "1100" },
+      { "site": "Costco", "price": "1005" },
+      { "site": "Sam's Club", "price": "1050" },
+      { "site": "Fry's Electronics", "price": "1060" }
     ],
     "information": "256GB - Color: Natural Titanium",
     "image": "/images/iphone-15-pro-max.jpg"
@@ -25,11 +33,60 @@
     "id": 3,
     "name": "Beats Studio Pro",
     "sites": [
-      { "site": "Amazon", "price": "250"},
-      { "site": "Best Buy", "price": "249"},
-      { "site": "Ebay", "price": "230"}
+      { "site": "Amazon", "price": "200" },
+      { "site": "Walmart", "price": "220" },
+      { "site": "Target", "price": "235" },
+      { "site": "Newegg", "price": "250" },
+      { "site": "Costco", "price": "215" },
+      { "site": "Sam's Club", "price": "225" },
+      { "site": "Fry's Electronics", "price": "240" }
     ],
     "information": "Wireless Noise Cancelling Headphones",
     "image": "/images/beats-studio-pro.jpg"
-  }
+  },
+  {
+    "id": 4,
+    "name": "Samsung Galaxy S24 Ultra",
+    "sites": [
+      { "site": "Amazon", "price": "1100" },
+      { "site": "Walmart", "price": "1120" },
+      { "site": "Target", "price": "1125" },
+      { "site": "Newegg", "price": "1120" },
+      { "site": "Costco", "price": "1117" },
+      { "site": "Sam's Club", "price": "1110" },
+      { "site": "Fry's Electronics", "price": "1130" }
+    ],
+    "information": "512GB, Android, 200MP 100x zoom",
+    "image": "/images/samsung-s24.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Sony Alphta 7 IV",
+    "sites": [
+      { "site": "Amazon", "price": "2350" },
+      { "site": "Walmart", "price": "2370" },
+      { "site": "Target", "price": "2380" },
+      { "site": "Newegg", "price": "2370" },
+      { "site": "Costco", "price": "2390" },
+      { "site": "Sam's Club", "price": "2370" },
+      { "site": "Fry's Electronics", "price": "2400" }
+    ],
+    "information": "Full-frame, Mirrorless, Body Only",
+    "image": "/images/sony-alpha-7.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Ray-Ban Meta",
+    "sites": [
+      { "site": "Amazon", "price": "299" },
+      { "site": "Walmart", "price": "300" },
+      { "site": "Target", "price": "305" },
+      { "site": "Newegg", "price": "299" },
+      { "site": "Costco", "price": "300" },
+      { "site": "Sam's Club", "price": "310" },
+      { "site": "Fry's Electronics", "price": "300" }
+    ],
+    "information": "Wayfarer Smart Glasses with Metal AI",
+    "image": "/images/ray-ban-meta.jpg"
+  } 
 ]

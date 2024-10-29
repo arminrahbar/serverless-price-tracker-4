@@ -104,7 +104,7 @@ function ContactUs() {
               className="btn"
               onClick={() => navigate('/')} // Redirect to homepage
             >
-              Cancel
+              Back to Home
             </button>
           </div>
         </form>

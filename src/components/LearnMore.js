@@ -5,34 +5,44 @@ import "./Home.css"; // Use the same CSS styles for consistency
 function LearnMore() {
   return (
     <Layout>
-      <div className="learn-more-container">
+      <div className="learn-more-container" style={{ marginTop: '70px'}}>
+      
         <h1>How Savr Works</h1>
         <p>
-          It is important to us that you feel safe when you compare prices of a product you might be interested to buy or use any of our other services. Therefore, we are providing you with certain information about how our product search results (including product rankings) work.
+          It is important to us that you feel safe when you compare prices of a
+          product you might be interested to buy or use any of our other
+          services. Therefore, we are providing you with certain information
+          about how to use Savr.
         </p>
 
-        <h2>Who are we?</h2>
+        <h2>How to add and remove a product from tracking</h2>
+
         <p>
-          We are the Savr Group, and our platform provides you services such as product price tracking, comparison across vendors, and notifications on price updates. Our goal is to simplify your shopping experience by ensuring you get the best deal. In this page, we are providing you with more information on how we rank our search results and how our search functionalities work.
+          On home page, click on "Add Product" to add a new product to your
+          price tracking list. To remove a product, you can click on "Remove
+          Product" to remove a product from tracking. The tracked products on
+          home display the the products whose price you are interested to track
+          or are tracking across various websites.
         </p>
 
-        <h2>How do we rank products?</h2>
+        <h2>How to add and remove a vendor from tracking</h2>
         <p>
-          Products are ranked based on a combination of relevance, price, availability, and user preference. Savr uses various factors to ensure that you can easily find what you are looking for, while also keeping track of any price changes for your selected products.
+          On product details page for a given product, you can add new vendors to track their prices for the current product.
+          To add a new vendor, click on "Add Vendor" which takes you to a page where you can select new vendors. 
+          To remove an existing vendor, click on "Remove Vendor" to remove. 
         </p>
 
         <h2>Product Updates and Notifications</h2>
         <p>
-          Our product update system notifies you whenever a price change occurs for a product in your tracking list. We also allow you to manually search for price changes, which is useful when you want to verify if a better deal is available.
-        </p>
-
-        <h2>User Experience and Feedback</h2>
-        <p>
-          We continuously strive to improve Savr based on user feedback. If you have any suggestions or encounter issues, please feel free to reach out to us. Your experience is our priority.
+          Our product update system notifies you whenever a price change occurs
+          for a product in your tracking list. On the home page, a notification appears
+          to the left of a product if a vendor's price for that item has changed since 
+          user last viewed the product details page for that product. 
         </p>
 
         <p>
-          Thank you for choosing Savr! <br />We hope our platform helps you save time and money.
+          Thank you for choosing Savr! <br />
+          We hope our platform helps you save time and money.
         </p>
       </div>
     </Layout>
