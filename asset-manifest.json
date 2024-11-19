@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/serverless-price-tracker-4/static/css/main.908c639c.css",
+    "main.js": "/serverless-price-tracker-4/static/js/main.4610dc47.js",
+    "static/js/453.95a3a031.chunk.js": "/serverless-price-tracker-4/static/js/453.95a3a031.chunk.js",
+    "static/media/fa-solid-900.ttf": "/serverless-price-tracker-4/static/media/fa-solid-900.07ed6d5fa32c1d54af0f.ttf",
+    "static/media/fa-brands-400.ttf": "/serverless-price-tracker-4/static/media/fa-brands-400.0ff70dcbf135d859ebf3.ttf",
+    "static/media/fa-solid-900.woff2": "/serverless-price-tracker-4/static/media/fa-solid-900.93f719f4d62bfa3e748c.woff2",
+    "static/media/fa-brands-400.woff2": "/serverless-price-tracker-4/static/media/fa-brands-400.bb8d5a145e22822103fb.woff2",
+    "static/media/fa-regular-400.ttf": "/serverless-price-tracker-4/static/media/fa-regular-400.17a6e1aebccdbaa39e78.ttf",
+    "static/media/fa-regular-400.woff2": "/serverless-price-tracker-4/static/media/fa-regular-400.bc3722686635b5f86132.woff2",
+    "static/media/fa-v4compatibility.ttf": "/serverless-price-tracker-4/static/media/fa-v4compatibility.0f6cb412603527bda691.ttf",
+    "static/media/fa-v4compatibility.woff2": "/serverless-price-tracker-4/static/media/fa-v4compatibility.6cfec8414be20e2c3426.woff2",
+    "index.html": "/serverless-price-tracker-4/index.html",
+    "main.908c639c.css.map": "/serverless-price-tracker-4/static/css/main.908c639c.css.map",
+    "main.4610dc47.js.map": "/serverless-price-tracker-4/static/js/main.4610dc47.js.map",
+    "453.95a3a031.chunk.js.map": "/serverless-price-tracker-4/static/js/453.95a3a031.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.908c639c.css",
+    "static/js/main.4610dc47.js"
+  ]
+}
