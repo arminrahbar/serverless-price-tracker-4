@@ -1,131 +1,191 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const ProductsContext = createContext();
 
 export const useProducts = () => useContext(ProductsContext);
 
 export const ProductsProvider = ({ children }) => {
-    const [products, setProducts] = useState([]);
-    
-    // Initialize selectedProducts from local storage
-    const [selectedProducts, setSelectedProducts] = useState(() => {
-        const savedProducts = localStorage.getItem('selectedProducts');
-        return savedProducts ? JSON.parse(savedProducts) : [];
-    });
+  const [products, setProducts] = useState([]); // Full list of products
+  const [searchQuery, setSearchQuery] = useState(""); // Current search query
+  const [filteredProducts, setFilteredProducts] = useState([]); // Displayed products
 
-    // Initialize favorites as an empty set, do not load from session storage
-    const [favorites, setFavorites] = useState(new Set());
+  const [priceFilter, setPriceFilter] = useState({ minPrice: null, maxPrice: null }); // Price filter state
 
-    // Initialize collections
-    const [collections, setCollections] = useState([
-        { name: 'All Items', items: [] }, // Default collection
+  // Fetch products on mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${process.env.PUBLIC_URL}/store.json`);
+        const data = await response.json();
+        setProducts(data); // Store all products
+        setFilteredProducts(data); // Initially show all products
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // Apply filters (search and price) whenever products, searchQuery, or priceFilter change
+  useEffect(() => {
+    let updatedProducts = products;
+
+    // Apply search filter
+    if (searchQuery) {
+      updatedProducts = updatedProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply price filter
+    if (priceFilter.minPrice !== null && priceFilter.maxPrice !== null) {
+      updatedProducts = updatedProducts.filter((product) =>
+        product.sites.some(
+          (site) =>
+            Number(site.price) >= Number(priceFilter.minPrice) &&
+            Number(site.price) <= Number(priceFilter.maxPrice)
+        )
+      );
+    }
+
+    setFilteredProducts(updatedProducts);
+  }, [products, searchQuery, priceFilter]);
+
+  // Function to handle the price filter
+  const filterProductsByPrice = (minPrice, maxPrice) => {
+    setPriceFilter({ minPrice, maxPrice });
+  };
+
+  // Function to reset price filters
+  const resetFilters = () => {
+    setPriceFilter({ minPrice: null, maxPrice: null });
+  };
+
+  // Function to update the search query
+  const updateSearchQuery = (query) => {
+    setSearchQuery(query);
+  };
+
+  // Favorites and collections logic remains the same
+  const [selectedProducts, setSelectedProducts] = useState(() => {
+    const savedProducts = localStorage.getItem("selectedProducts");
+    return savedProducts ? JSON.parse(savedProducts) : [];
+  });
+
+  const [favorites, setFavorites] = useState(new Set());
+
+  const [collections, setCollections] = useState([
+    { name: "All Items", items: [] },
+  ]);
+
+  useEffect(() => {
+    sessionStorage.setItem("favorites", JSON.stringify(Array.from(favorites)));
+  }, [favorites]);
+
+  useEffect(() => {
+    sessionStorage.removeItem("favorites");
+  }, []);
+
+  const createCollection = (name) => {
+    setCollections((prevCollections) => [
+      ...prevCollections,
+      { name, items: [] },
     ]);
+  };
 
-    // Save favorites to session storage whenever it changes, but do not load on refresh
-    useEffect(() => {
-        sessionStorage.setItem('favorites', JSON.stringify(Array.from(favorites)));
-    }, [favorites]);
+  const addToCollection = (collectionName, item) => {
+    setCollections((prevCollections) => {
+      let updatedCollections = prevCollections.map((collection) => {
+        if (collection.name === collectionName) {
+          const isInCollection = collection.items.some((i) => i.id === item.id);
+          return {
+            ...collection,
+            items: isInCollection
+              ? collection.items
+              : [...collection.items, item],
+          };
+        }
 
-    // Clear session storage on load to reset favorites every time the page refreshes
-    useEffect(() => {
-        sessionStorage.removeItem('favorites');  // Clear favorites at the start of the session
-    }, []);
+        if (collectionName !== "All Items" && collection.name === "All Items") {
+          const isInAllItems = collection.items.some((i) => i.id === item.id);
+          return {
+            ...collection,
+            items: isInAllItems
+              ? collection.items
+              : [...collection.items, item],
+          };
+        }
 
-    // Function to create a new collection
-    const createCollection = (name) => {
-        setCollections((prevCollections) => [
-            ...prevCollections,
-            { name, items: [] },
-        ]);
-    };
+        return collection;
+      });
 
-    const addToCollection = (collectionName, item) => {
-        setCollections(prevCollections => {
-            let updatedCollections = prevCollections.map(collection => {
-                if (collection.name === collectionName) {
-                    const isInCollection = collection.items.some(i => i.id === item.id);
-                    return {
-                        ...collection,
-                        items: isInCollection ? collection.items : [...collection.items, item],
-                    };
-                }
-    
-                if (collectionName !== "All Items" && collection.name === "All Items") {
-                    // Add item to "All Items" only if it's being added to another collection
-                    const isInAllItems = collection.items.some(i => i.id === item.id);
-                    return {
-                        ...collection,
-                        items: isInAllItems ? collection.items : [...collection.items, item],
-                    };
-                }
-    
-                return collection; // Keep other collections as-is
-            });
-    
-            // Add to favorites when item is added to any collection
-            setFavorites((prev) => new Set(prev).add(item.id));
-    
-            return updatedCollections;
-        });
-    };
+      setFavorites((prev) => new Set(prev).add(item.id));
 
-    const removeFromCollection = (collectionName, productId) => {
-        setCollections((prevCollections) => {
-            // Step 1: Remove the item from the specified collection
-            const updatedCollections = prevCollections.map((collection) => {
-                if (collection.name === collectionName) {
-                    return {
-                        ...collection,
-                        items: collection.items.filter((item) => item.id !== productId),
-                    };
-                }
-                return collection;
-            });
-    
-            // Step 2: Check if the item is still in any other collections (excluding "All Items")
-            const isInOtherCollections = updatedCollections
-                .filter((collection) => collection.name !== 'All Items')
-                .some((collection) => collection.items.some((item) => item.id === productId));
-    
-            // Step 3: If not in other collections, remove it from "All Items" and update favorites
-            const finalCollections = updatedCollections.map((collection) => {
-                if (collection.name === "All Items") {
-                    return {
-                        ...collection,
-                        items: isInOtherCollections
-                            ? collection.items
-                            : collection.items.filter((item) => item.id !== productId),
-                    };
-                }
-                return collection;
-            });
-    
-            // Step 4: Update favorites state if item is removed from all collections
-            setFavorites((prev) => {
-                const updatedFavorites = new Set(prev);
-                if (!isInOtherCollections) updatedFavorites.delete(productId);
-                return updatedFavorites;
-            });
-    
-            return finalCollections;
-        });
-    };
-    
-    return (
-        <ProductsContext.Provider value={{
-            products,
-            setProducts,
-            selectedProducts,
-            setSelectedProducts,
-            favorites,
-            setFavorites,
-            collections,
-            setCollections,
-            createCollection,
-            addToCollection,
-            removeFromCollection,
-        }}>
-            {children}
-        </ProductsContext.Provider>
-    );
+      return updatedCollections;
+    });
+  };
+
+  const removeFromCollection = (collectionName, productId) => {
+    setCollections((prevCollections) => {
+      const updatedCollections = prevCollections.map((collection) => {
+        if (collection.name === collectionName) {
+          return {
+            ...collection,
+            items: collection.items.filter((item) => item.id !== productId),
+          };
+        }
+        return collection;
+      });
+
+      const isInOtherCollections = updatedCollections
+        .filter((collection) => collection.name !== "All Items")
+        .some((collection) =>
+          collection.items.some((item) => item.id === productId)
+        );
+
+      const finalCollections = updatedCollections.map((collection) => {
+        if (collection.name === "All Items") {
+          return {
+            ...collection,
+            items: isInOtherCollections
+              ? collection.items
+              : collection.items.filter((item) => item.id !== productId),
+          };
+        }
+        return collection;
+      });
+
+      setFavorites((prev) => {
+        const updatedFavorites = new Set(prev);
+        if (!isInOtherCollections) updatedFavorites.delete(productId);
+        return updatedFavorites;
+      });
+
+      return finalCollections;
+    });
+  };
+
+  return (
+    <ProductsContext.Provider
+      value={{
+        products,
+        filteredProducts, // Updated dynamically with search and price filters
+        setProducts,
+        filterProductsByPrice,
+        resetFilters,
+        updateSearchQuery, // Expose search query function
+        selectedProducts,
+        setSelectedProducts,
+        favorites,
+        setFavorites,
+        collections,
+        setCollections,
+        createCollection,
+        addToCollection,
+        removeFromCollection,
+      }}
+    >
+      {children}
+    </ProductsContext.Provider>
+  );
 };

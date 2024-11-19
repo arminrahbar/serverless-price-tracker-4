@@ -1,21 +1,80 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Home.css"; // Import your main CSS file for styling
-import { useNavigate } from "react-router-dom";
+import SearchFilterSidebar from "./SearchFilterSidebar";
 
-// Define a Layout component
-const Layout = ({ children, showSearch, searchPlaceholder, onSearchChange, searchValue }) => {
+// Mapping of URL segments to user-friendly names
+const pathNameMap = {
+  "": "Home",
+  favorites: "Favorites",
+  "contact-us": "Contact",
+  product: "Product Details",
+  "learn-more": "How Savr works",
+  "All%20Items": "All Items",
+  // Add other paths as needed
+};
+
+const Breadcrumb = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathnames = location.pathname.split("/").filter((x) => x);
+
+  const handleBreadcrumbClick = (name, routeTo) => {
+    if (name === "collections") {
+      navigate("/favorites");
+    } else {
+      navigate(routeTo);
+    }
+  };
+
+  return (
+    <div className="breadcrumb">
+      <span onClick={() => navigate("/")} className="breadcrumb-link">
+        Home
+      </span>
+      {pathnames.map((name, index) => {
+        const displayName =
+          name === "collections" ? "Favorites" : pathNameMap[name] || name;
+        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+        const isLast = index === pathnames.length - 1;
+
+        return (
+          <span key={name}>
+            <span
+              onClick={() => !isLast && handleBreadcrumbClick(name, routeTo)}
+              className={isLast ? "breadcrumb-current" : "breadcrumb-link"}
+            >
+              {displayName}
+            </span>
+          </span>
+        );
+      })}
+    </div>
+  );
+};
+
+// Layout Component
+const Layout = ({
+  children,
+  showSearch,
+  searchPlaceholder,
+  onSearchChange,
+  searchValue,
+}) => {
   const [showHelpDropdown, setShowHelpDropdown] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogoClick = () => {
     navigate("/"); // Assuming '/' is your home route
   };
 
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <div>
+    <div className="layout-container">
       {/* Common Header */}
       <header className="app-header">
-        {/* Left Section: Logo */}
         <div className="header-logo">
           <h1
             className="logo-text"
@@ -24,25 +83,34 @@ const Layout = ({ children, showSearch, searchPlaceholder, onSearchChange, searc
           >
             Savr
           </h1>
+          <p className="tagline">Your trusted price tracking site</p>
         </div>
 
-        {/* Center Section: Search bar */}
         {showSearch && (
-  <div className="search-container">
-    <input
-      type="text"
-      placeholder={searchPlaceholder}
-      className="search-bar"
-      value={searchValue} // Bind input value to searchValue prop
-      onChange={(e) => onSearchChange(e.target.value)}  // Use the callback here
-    />
-  </div>
-)}
+          <div className="search-container">
+            <i className="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              placeholder={searchPlaceholder}
+              className="search-bar"
+              value={searchValue}
+              onChange={(e) => onSearchChange(e.target.value)}
+            />
+          </div>
+        )}
 
-        {/* Right Section: Favorites & Help buttons */}
         <div className="header-right-buttons">
           <button
-            className="help-button"
+            className={`help-button ${isActive("/") ? "active-button" : ""}`}
+            onClick={() => navigate("/")}
+          >
+            Home
+          </button>
+
+          <button
+            className={`help-button ${
+              isActive("/favorites") ? "active-button" : ""
+            }`}
             onClick={() => navigate("/favorites")}
           >
             Favorites
@@ -53,7 +121,15 @@ const Layout = ({ children, showSearch, searchPlaceholder, onSearchChange, searc
             onMouseEnter={() => setShowHelpDropdown(true)}
             onMouseLeave={() => setShowHelpDropdown(false)}
           >
-            <button className="help-button">Help</button>
+            <button
+              className={`help-button ${
+                isActive("/contact-us") || isActive("/learn-more")
+                  ? "active-button"
+                  : ""
+              }`}
+            >
+              Help
+            </button>
             {showHelpDropdown && (
               <div className="help-dropdown">
                 <span
@@ -80,8 +156,56 @@ const Layout = ({ children, showSearch, searchPlaceholder, onSearchChange, searc
         </div>
       </header>
 
+      {/* Breadcrumb component */}
+      <Breadcrumb />
+
+      {/* Search Filter Sidebar */}
+      {showSearch && searchValue && (
+        <SearchFilterSidebar /> // Independent component, not inside <main>
+      )}
+
       {/* Render page-specific content below the header */}
       <main>{children}</main>
+
+      {/* Footer component */}
+      <footer className="app-footer">
+        <p>&copy; {new Date().getFullYear()} Savr. All rights reserved.</p>
+        <div className="footer-links">
+          <span onClick={() => navigate("/contact-us")} className="footer-link">
+            Contact Us
+          </span>
+          <span onClick={() => navigate("/learn-more")} className="footer-link">
+            How Savr Works
+          </span>
+
+          <span className="social-media">
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              <i className="fab fa-facebook-f"></i>
+            </a>
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              <i className="fab fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              <i className="fab fa-instagram"></i>
+            </a>
+          </span>
+        </div>
+      </footer>
     </div>
   );
 };

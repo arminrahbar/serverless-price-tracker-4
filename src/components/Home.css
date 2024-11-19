@@ -1,3 +1,5 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
 body {
   background-color: rgb(
     0,
@@ -66,26 +68,7 @@ h2 {
   font-size: 14px;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Ensures modal appears over all content */
-}
 
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
 
 h4 {
   color: black;
@@ -159,141 +142,32 @@ h3 {
   gap: 10px; /* Spacing between buttons */
 }
 
-/* Tooltip Box Styling */
-.tooltip-box {
-  background-color: #444; /* Dark background */
-  color: #fff; /* White text */
-  border-radius: 5px;
-  padding: 10px;
-  position: absolute;
-  top: -100px; /* Position above the icon */
-  right: 0;
-  width: 200px; /* Set a fixed width */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  z-index: 10; /* Ensure it appears above other elements */
+
+
+
+
+/* Container for the tooltip icon */
+.tooltip-container {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px; /* Space between the title and the icon */
 }
 
-/* Style for Help Icon */
-.help-icon-container {
-  position: relative; /* Relative positioning for tooltip */
-  cursor: pointer;
-}
 
-.help-icon {
-  color: #e4932a; /* Custom color for help icon */
-  margin-left: 15px; /* Space between buttons and icon */
-}
-
-.help-icon:hover {
-  color: #fff; /* Change color on hover */
-}
-
-.app-header {
-  display: flex;
+/* Info icon styling */
+.info-icon {
+  display: inline-flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  background-color: #333;
-  width: 100%;
-  height: 8%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-
-.header-logo {
-  flex: 1;
-  display: flex;
-  justify-content: left; /* Center children */
-}
-
-.search-container {
-  flex: 1;
-  display: flex;
-  justify-content: center; /* Center children */
-}
-
-.header-right-buttons {
-  flex: 1;
-  display: flex;
-  justify-content: right; /* Center children */
-  gap:10px;
-}
-
-.logo-text {
-  color: #ffa600;
-  font-size: 30px;
-  font-family: "Great Vibes", cursive;
-  letter-spacing: 1px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%; /* Circle shape */
+  background-color: red; /* Red circle */
+  color: white; /* White 'i' inside the circle */
   cursor: pointer;
+  font-size: 12px; /* Smaller size for the 'i' */
+  margin-left: 5px; /* Space between icon and text */
 }
-
-.search-bar {
-  width: 100%;
-  max-width: 300px;
-  padding: 8px;
-  border: 2.5px solid #ffa600;
-  border-radius: 50px;
-  font-size: 16px;
-  outline: none;
-}
-
-.help-button-container {
-  position: relative; /* This ensures the dropdown is positioned relative to this container */
-  display: flex;
-  align-items: center;
-}
-
-.help-button {
-  background-color: #444;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.help-button:hover {
-  background-color: #555;
-}
-
-.help-dropdown {
-  position: absolute;
-  top: 100%; /* Ensures the dropdown starts right below the Help button */
-  right: 0;
-  background-color: #222;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 10px 0;
-  z-index: 1000;
-  max-width: 200px;
-  overflow: hidden;
-}
-
-.dropdown-item {
-  display: block;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: left;
-  border-bottom: 1px solid #444;
-  color: #ffa600;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown-item:hover {
-  background-color: #555;
-  color: #fff;
-}
-
-.dropdown-item:last-child {
-  border-bottom: none;
-}
-
 
 /* Tooltip box styling */
 .tooltip-box {
@@ -321,6 +195,19 @@ h3 {
   text-align: left; /* Align text to the left */
 }
 
+/* Read More link styling */
+.read-more-link {
+  color: #ffa600; /* Updated to match a more elegant look */
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.read-more-link:hover {
+  text-decoration: underline;
+}
+
+
 /* Close button inside tooltip */
 .tooltip-close {
   position: absolute; /* Position it relative to the tooltip box */
@@ -344,40 +231,6 @@ h3 {
 .tooltip-close:hover {
   background-color: #666; /* Gray circle on hover */
   color: #fff; /* Keep the text white */
-}
-
-/* Info icon styling */
-.info-icon {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%; /* Circle shape */
-  background-color: red; /* Red circle */
-  color: white; /* White 'i' inside the circle */
-  cursor: pointer;
-  font-size: 12px; /* Smaller size for the 'i' */
-  margin-left: 5px; /* Space between icon and text */
-}
-
-/* Container for the tooltip icon */
-.tooltip-container {
-  display: inline-block;
-  position: relative;
-  margin-left: 8px; /* Space between the title and the icon */
-}
-
-/* Read More link styling */
-.read-more-link {
-  color: #ffa600; /* Updated to match a more elegant look */
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.read-more-link:hover {
-  text-decoration: underline;
 }
 
 /* Container styling for Contact Us page */
@@ -464,15 +317,14 @@ h3 {
 
 
 .products-grid {
-  display: flex; /* Use flexbox for layout */
-  justify-content: center; /* Center the items in the container */
-  align-items: flex-start; /* Align items to the top of the row */
-  gap: 20px; /* Adjust spacing between the cards */
-  flex-wrap: wrap; /* Wrap the items to a new row when needed */
-  padding: 20px; /* Add spacing around the grid */
-  max-width: 1200px; /* Restrict the width to avoid excessive space */
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three equal-width columns */
+  gap: 20px;
+  padding: 10px;
+  max-width: 940px;
   margin-bottom: 50px;
+  justify-content: center; /* Center items horizontally */
+  align-items: start; /* Align items to the top of the row */
 }
 
 .product-image {
@@ -513,37 +365,15 @@ h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
 }
 
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #333;
-  padding: 10px 20px;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-/* Second header for home page */
-.home-page-second-header {
-  position: sticky; /* Keep this header at the top */
-  top: 70px; /* Stick to the top of the app-header */
-  background: black; /* Background color for visibility */
-  padding: 10px; /* Space inside the second header */
-  z-index: 100; /* Should be below app-header */
-}
-
 /* Updated container styling */
 .container {
-  max-width: 900px; /* Limit the width to prevent overflow */
-  width: 100%; /* Ensure it scales on smaller screens */
-  margin: 0 auto; /* Center the content */
-  padding: 0; /* Remove padding */
-  text-align: center; /* Center-align text */
-  margin-bottom: 300px;
+  max-width: 940px; /* Increased to fit three 300px cards with gaps */
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 80px;
+  padding-top: 80px;
 }
 
 /* Optional: If you want to add some space above the container */
@@ -556,27 +386,139 @@ h3 {
 
 .collections-container {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping */
-  justify-content: center; /* Align items to the start of each row */
-  gap: 10px; /* Adds consistent space between items *//* Space items evenly with less gap */
+  flex-wrap: wrap;
+  justify-content: center; /* Center-align all cards */
+  gap: 20px; /* Add spacing between cards */
+  padding: 20px; /* Add padding around the container */
+  background-color: #000000; /* Dark background for contrast */
 }
+
 .collection-card {
-  flex: 1 1 30%; /* Allows each card to take up roughly one-third of the container width */
-  max-width: 200px;
-  min-width: 180px; /* Ensure cards don’t shrink below a readable size */
-  margin: 0; /* Remove excess margin for consistent row layout */
-  padding: 10px;
-  border-radius: 10px;
-  background-color: #9e7979;
+  flex: 1 1 30%; /* Cards take up roughly one-third of the row */
+  max-width: 280px; /* Compact size */
+  min-width: 200px; /* Ensure readability */
+  height: 180px; /* Fixed card height */
+  padding: 15px; /* Internal padding */
+  border-radius: 15px; /* Smooth rounded corners */
+  background: linear-gradient(145deg, #ffffff, #e6e6e6); /* Subtle gradient */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -2px 4px rgba(255, 255, 255, 0.5); /* Shadow effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  position: relative; /* For positioning title and images */
+  cursor: pointer; /* Indicate the card is clickable */
+  display: flex;
+  flex-direction: column; /* Stack title and images */
+  overflow: hidden; /* Prevent content overflow */
 }
+
+.collection-card:hover {
+  transform: translateY(-8px); /* Lift card slightly */
+  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2); /* More prominent shadow */
+}
+
 .collection-card h3 {
-  margin: 0; /* Remove margin for consistency */
-  font-size: 18px; /* Font size for collection title */
+  margin: 0; /* Remove extra margins */
+  font-size: 18px; /* Font size for title */
+  font-weight: bold; /* Bold for emphasis */
+  color: #ffffff; /* Dark color for readability */
+  text-align: center; /* Center-align the title */
+  position: absolute; /* Position at the bottom of the card */
+  bottom: 0px; /* Spacing from bottom edge */
+  width: 102%; /* Full width for alignment */
+  background: rgba(85, 66, 14, 0.8); /* Slight background for visibility */
+  padding: 5px 0; /* Padding around the title */
+  border-radius: 0 0 10px 10px; /* Rounded corners on bottom only */
+  left: -5px;
 }
 
 .collection-card p {
-  margin: 5px 0 0; /* Margin for item count */
+  font-size: 14px; /* Smaller font size for item count */
+  color: #666; /* Softer color */
+  text-align: center; /* Center-align the text */
+  margin: 0;
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
+
+.collection-card .image-container {
+  display: flex;
+   /* Take up remaining space */
+  gap: 5px;
+  height: 140px;
+  width: 180px; /* Fixed height for consistent layout */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.collection-card .main-image {
+  flex: 1; /* Occupy the left half */
+  height: 100%; /* Fill the container height */
+  margin-right: 5px; /* Add spacing between left and right images */
+  overflow: hidden; /* Prevent overflow issues */
+  position: relative; /* Ensure child elements respect container bounds */
+}
+
+.collection-card .main-image img {
+  width: 100%; /* Fit image to container width */
+  height: 100%; /* Fit image to container height */
+  object-fit: contain; /* Maintain aspect ratio, no cropping */
+  border-radius: 10px; /* Rounded corners */
+  transform: scale(0.9); /* Apply zoom-out effect */
+  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.collection-card .main-image img:hover {
+  transform: scale(1); /* Zoom back to original size on hover */
+}
+
+.collection-card .main-image .placeholder {
+  width: 100%; /* Fit container width */
+  height: 100%; /* Fill container height */
+  display: flex; /* Center-align placeholder content */
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;  /* Gray background for placeholder */
+  color: #f7f3f3; /* Subtle text color for placeholders */
+  font-size: 6px; /* Text size for placeholder text */
+  border-radius: 10px; /* Rounded corners for consistency */
+  position: absolute; /* Overlay on top of the container */
+  transform: scale(0.9); /* Match the zoom-out effect of the images */
+  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.collection-card .stacked-images {
+  flex: 1; /* Occupy the right half */
+  display: flex;
+  flex-direction: column; /* Stack images vertically */
+  gap: 5px; /* Add spacing between stacked images */
+  height: 100%; /* Take full height of the container */
+  overflow: hidden; /* Prevent overflow issues */
+  position: relative; /* Ensure child elements respect container bounds */
+}
+
+.collection-card .stacked-images img,
+.collection-card .stacked-images .placeholder {
+  width: 100%; /* Fit container width */
+  height: calc(50% - 2.5px); /* Divide evenly and account for gap */
+  object-fit: contain; /* Ensure the full image fits without cropping */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #ffffff; /* Gray background for placeholders */
+  transform: scale(0.9); /* Apply zoom-out effect */
+  transition: transform 0.3s ease; /* Add smooth zoom transition on hover */
+}
+
+.collection-card .stacked-images img:hover {
+  transform: scale(1); /* Zoom back to original size on hover */
+}
+
+.collection-card .stacked-images .placeholder {
+  display: flex; /* Center-align placeholder content */
+  justify-content: center;
+  align-items: center;
+  color: #ffffff; /* Subtle text color for placeholders */
+  font-size: 12px; /* Optional text size for placeholder */
+  transform: scale(0.9); /* Match the zoom-out effect of images */
+}
+
 
 
 .exit-search-button {
@@ -596,4 +538,416 @@ h3 {
 
 .exit-search-button:hover {
   background-color: #e04e4e;
+}
+
+
+/* Style for Help Icon */
+.help-icon-container {
+  position: relative; /* Relative positioning for tooltip */
+  cursor: pointer;
+}
+
+.help-icon {
+  color: #e4932a; /* Custom color for help icon */
+  margin-left: 15px; /* Space between buttons and icon */
+}
+
+.help-icon:hover {
+  color: #fff; /* Change color on hover */
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #333;
+  padding: 10px 20px; /* Padding for spacing inside the header */
+  width: 100%;
+  height: 60px; /* Fixed height for consistency */
+  box-sizing: border-box;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+}
+
+.header-logo {
+  flex: 1;
+  display: flex;
+  justify-content: left;
+}
+
+.logo-text {
+  color: #ffa600; /* Initial color */
+  font-size: 30px;
+  font-family: "Great Vibes", cursive;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color 0.3s ease, text-shadow 0.3s ease; /* Smooth transition for color and shadow */
+}
+
+.logo-text:hover {
+  color: #ffb74d; /* Lighter orange on hover */
+  text-shadow: 0px 0px 8px rgba(255, 183, 77, 0.8); /* Subtle glow effect on hover */
+}
+
+.search-container {
+  display: inline-flex; /* Restrict container width to fit content */
+  align-items: center; /* Center icon and input vertically */
+  position: relative; /* For absolute positioning of the icon */
+  max-width: 500px; /* Prevent search box from growing too wide */
+  width: 200%; /* Adjust to available space */
+  padding: 10px;
+}
+
+.search-bar {
+  width: 100%; /* Takes up the full width of the container */
+  padding: 8px 8px 8px 32px; /* Extra left padding for the icon */
+  border: 2.5px solid #ffa600;
+  border-radius: 50px;
+  font-size: 16px;
+  outline: none;
+  box-sizing: border-box; /* Ensures padding is included in width calculation */
+}
+
+/* Style for the search icon */
+.search-icon {
+  position: absolute;
+  left: 12px; /* Position icon inside the input field */
+  color: #aaa; /* Icon color */
+  font-size: 16px;
+  padding: 10px;
+}
+
+.header-right-buttons {
+  flex: 1;
+  display: flex;
+  justify-content: right; /* Center children */
+  gap:10px;
+}
+
+.help-button {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.help-button.active-button {
+  background-color: #853939; /* Slightly lighter for the active state */
+  color: #fff; /* Keep the text white */
+  font-weight: bold; /* Emphasize the active button */
+}
+
+.help-button-container {
+  position: relative; /* This ensures the dropdown is positioned relative to this container */
+  display: flex;
+  align-items: center;
+}
+
+.help-dropdown {
+  position: absolute;
+  top: 100%; /* Ensures the dropdown starts right below the Help button */
+  right: 0;
+  background-color: #222;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  z-index: 1000;
+  max-width: 200px;
+  overflow: hidden;
+}
+
+.help-button:hover {
+  background-color: #555;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  border-bottom: 1px solid #444;
+  color: #ffa600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.breadcrumb {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fce6bf;
+  background-color: #5e5c5c;
+  border: 1px solid #000000;
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+}
+
+/* Base style for each link in the breadcrumb */
+.breadcrumb-link {
+  color: #fce6bf; /* Initial color */
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease; /* Smooth transition for color and shadow */
+  font-weight: bold;
+}
+
+/* Hover effect */
+.breadcrumb-link:hover {
+  color: #ffb74d; /* Lighter orange color on hover */
+  text-shadow: 0px 0px 5px rgba(255, 183, 77, 0.8); /* Glow effect on hover */
+}
+
+/* Style for the current page in the breadcrumb */
+.breadcrumb-current {
+  color: #ffcc80; /* Slightly lighter color for the current page */
+  font-weight: bold;
+}
+
+/* Separator styling */
+.breadcrumb > span:not(:last-child)::after {
+  content: '>'; /* Separator between breadcrumb items */
+  margin: 0 8px;
+  color: #ffffff; /* Light color for the separator */
+  font-weight: normal;
+  opacity: 0.6; /* Slightly faded separator */
+}
+/* Fixed position for home-page-second-header */
+.second-header {
+  position: fixed;
+  top: 100px; /* Combined height of .app-header (60px) + .breadcrumb (60px) */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust to keep centered */
+  background: black;
+  padding: 10px;
+  width: 100%; /* Account for padding or margin on both sides */
+   /* Optional max width to limit size on large screens */
+  z-index: 998;
+}
+
+/* Ensure the layout container takes up the full height */
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+}
+.app-footer {
+  background-color: #333;
+  color: #fce6bf;
+  text-align: center;
+  padding: 15px 20px;
+  margin-top: auto;
+}
+.app-footer {
+  background-color: #333;
+  color: #fce6bf;
+  text-align: center;
+  padding: 15px 20px;
+  margin-top: auto;
+}
+
+.app-footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.footer-links {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: #fce6bf;
+  margin: 0 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 16px;
+}
+
+.footer-link:hover {
+  color: #ffb74d; /* Lighter color on hover */
+}
+
+.social-media .footer-link {
+  font-size: 16px;
+}
+
+
+/* Sidebar overlay */
+.search-filter-sidebar {
+  position: fixed;
+  left: 0;
+  top: 120px; /* Adjust this value based on header height */
+  width: 200px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  z-index: 1000; /* Ensure it appears on top of content */
+  margin-top: 105px;
+  margin-left: 5px;
+  border-radius: 10px;
+  /* Removed fixed height to allow natural height based on content */
+}
+
+/* Sidebar title */
+.search-filter-sidebar-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* Preset ranges section */
+.search-filter-preset-ranges {
+  margin-bottom: 20px;
+}
+
+/* Individual range option styling */
+.search-filter-range-option {
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  background-color: #b6b1b1;
+  transition: background-color 0.3s;
+}
+
+.search-filter-range-option.selected,
+.search-filter-range-option:hover {
+  background-color: #ffa600;
+  color: #3f2020;
+}
+
+/* Custom range section styling */
+.search-filter-custom-range {
+  margin-top: 20px;
+}
+
+.search-filter-custom-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Custom range input fields */
+.search-filter-input {
+  width: calc(50% - 5px);
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #473333;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Content container setup to accommodate sidebar */
+.content-container {
+  display: flex;
+  padding: 20px;
+}
+
+/* Search results offset for sidebar */
+.search-results {
+  margin-left: 220px; /* Offset to allow space for fixed sidebar */
+  padding: 20px;
+}
+
+
+.tagline {
+  font-size: 14px;
+  color: #c4b1b1; /* Subtle gray for tagline */
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle; /* Aligns tagline with logo */
+  font-style: italic;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  color: black;
+}
+
+.modal-buttons {
+  margin-top: 10px;
+  font-size: 14px;
+  padding: 6px 12px;
+  font-size: 12px;
+  background-color: #ccc;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.heart-tooltip {
+  position: absolute;
+  top: 40px; /* Adjust to position below the button */
+  right: 0; /* Align with the button */
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.undo-button {
+  position: absolute; /* Position relative to the second-header container */
+  top: 50%; /* Align vertically with the center of the header */
+  transform: translateY(-35%); /* Proper vertical centering */
+  margin-left: 150px; /* Space it 100px to the right of the h2 */
+  background-color: #ffa600; /* Highlight color */
+  color: white; /* Text color */
+  padding: 8px 16px; /* Button padding */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 14px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  z-index: 10; /* Ensure visibility over other elements */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.undo-button:hover {
+  background-color: #e59400; /* Darker shade on hover */
 }
